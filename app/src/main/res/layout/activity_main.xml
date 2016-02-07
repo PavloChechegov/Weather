@@ -2,6 +2,7 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                xmlns:custom="http://schemas.android.com/apk/res-auto"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin"
@@ -14,7 +15,11 @@
             android:id="@+id/imageView"
             android:src="@drawable/weather"
             android:scaleType="centerCrop"
-            android:contentDescription="@string/background_image"/>
+            android:contentDescription="@string/background_image"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignBottom="@+id/search_button"/>
 
     <TextView
             android:layout_width="wrap_content"
@@ -47,9 +52,8 @@
             android:text="@string/search_weather"
             android:textSize="20sp"
             android:id="@+id/search_button"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            style="@style/Base.Widget.AppCompat.ImageButton"/>
+            style="@style/Base.Widget.AppCompat.ImageButton"
+            android:layout_above="@+id/ivIconWeather" android:layout_centerHorizontal="true"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -61,6 +65,16 @@
             android:layout_alignBottom="@+id/imageView"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="100dp"/>
+
+    <com.github.pwittchen.weathericonview.WeatherIconView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ivIconWeather"
+            custom:weatherIconColor="@android:color/black"
+            custom:weatherIconSize="100"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"/>
 
 
 </RelativeLayout>
