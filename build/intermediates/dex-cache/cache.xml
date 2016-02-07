@@ -2,11 +2,11 @@
 <items version="2" >
 
     <item
-        jar="/home/pasha/IdeaProjects/Weather/app/build/intermediates/exploded-aar/com.android.support/design/23.1.1/jars/classes.jar"
+        jar="/home/pasha/AndroidProject/Weather/app/build/intermediates/exploded-aar/com.github.pwittchen/weathericonview/1.1.0/jars/classes.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="379471b2bd17d9737c050345c08e8c7d16589784">
-        <dex dex="/home/pasha/IdeaProjects/Weather/app/build/intermediates/pre-dexed/debug/classes-c4bc00b151b7c5d8a5b3cbfa8e2759caf44c7882.jar" />
+        sha1="8030b5d30757f9bf35bb982737697386b86c157e">
+        <dex dex="/home/pasha/AndroidProject/Weather/app/build/intermediates/pre-dexed/debug/classes-55a7cacce2a06aa6c003072321a86740699d32ad.jar" />
     </item>
     <item
         jar="/home/pasha/IdeaProjects/Weather/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.1.1/jars/classes.jar"
@@ -16,11 +16,39 @@
         <dex dex="/home/pasha/IdeaProjects/Weather/app/build/intermediates/pre-dexed/debug/classes-ad63f519d4d7bff2d1d5fa5d5dd881f8de7f0a2a.jar" />
     </item>
     <item
+        jar="/home/pasha/AndroidProject/Weather/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/libs/internal_impl-23.1.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="a4de9c81ae239414e1ed0f86441b02abaf29bca9">
+        <dex dex="/home/pasha/AndroidProject/Weather/app/build/intermediates/pre-dexed/debug/internal_impl-23.1.1-fa6e7d3e5892d72ac12120bd587fe8412526111b.jar" />
+    </item>
+    <item
+        jar="/home/pasha/IdeaProjects/Weather/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/libs/internal_impl-23.1.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="a4de9c81ae239414e1ed0f86441b02abaf29bca9">
+        <dex dex="/home/pasha/IdeaProjects/Weather/app/build/intermediates/pre-dexed/debug/internal_impl-23.1.1-9377215c82dc14fc8de9c53deba79a3da27a4b1e.jar" />
+    </item>
+    <item
+        jar="/home/pasha/AndroidProject/Weather/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="5c5699834e9722f1c288fea2de82725d078ba127">
+        <dex dex="/home/pasha/AndroidProject/Weather/app/build/intermediates/pre-dexed/debug/classes-b5fa00f9782a2568e7a02f51ba480a14bed48a8b.jar" />
+    </item>
+    <item
         jar="/home/pasha/Install/android-sdk/android-sdk-linux/extras/android/m2repository/com/android/support/support-annotations/23.1.1/support-annotations-23.1.1.jar"
         jumboMode="false"
         revision="23.0.2"
         sha1="8d680ba5a623724d1fb0e81c36a790f023a6cede">
         <dex dex="/home/pasha/IdeaProjects/Weather/app/build/intermediates/pre-dexed/debug/support-annotations-23.1.1-81bba1510501b0a38f749ca68e956e2114f31517.jar" />
+    </item>
+    <item
+        jar="/home/pasha/AndroidProject/Weather/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.1.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="09c5e804bc67fc0580360043dff067df574a60d4">
+        <dex dex="/home/pasha/AndroidProject/Weather/app/build/intermediates/pre-dexed/debug/classes-6e85b4a6f185c1c21ee8481060b47b98105d6937.jar" />
     </item>
     <item
         jar="/home/pasha/IdeaProjects/Weather/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/jars/classes.jar"
@@ -30,11 +58,25 @@
         <dex dex="/home/pasha/IdeaProjects/Weather/app/build/intermediates/pre-dexed/debug/classes-a99f9d8018ce780a207fd4bfc91a97f5fd3e6849.jar" />
     </item>
     <item
-        jar="/home/pasha/IdeaProjects/Weather/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/libs/internal_impl-23.1.1.jar"
+        jar="/home/pasha/AndroidProject/Weather/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/classes.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="a4de9c81ae239414e1ed0f86441b02abaf29bca9">
-        <dex dex="/home/pasha/IdeaProjects/Weather/app/build/intermediates/pre-dexed/debug/internal_impl-23.1.1-9377215c82dc14fc8de9c53deba79a3da27a4b1e.jar" />
+        sha1="6cbc7773921fcfedbe55657578f0cbfe614778dc">
+        <dex dex="/home/pasha/AndroidProject/Weather/app/build/intermediates/pre-dexed/debug/classes-d47b42e23903cb869b51e840c77572dbb12dcd40.jar" />
+    </item>
+    <item
+        jar="/home/pasha/AndroidProject/Weather/app/build/intermediates/exploded-aar/com.android.support/design/23.1.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="379471b2bd17d9737c050345c08e8c7d16589784">
+        <dex dex="/home/pasha/AndroidProject/Weather/app/build/intermediates/pre-dexed/debug/classes-abe68114c67dbf9880dc74d8bf28aa36bb8bde3e.jar" />
+    </item>
+    <item
+        jar="/home/pasha/IdeaProjects/Weather/app/build/intermediates/exploded-aar/com.android.support/design/23.1.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="379471b2bd17d9737c050345c08e8c7d16589784">
+        <dex dex="/home/pasha/IdeaProjects/Weather/app/build/intermediates/pre-dexed/debug/classes-c4bc00b151b7c5d8a5b3cbfa8e2759caf44c7882.jar" />
     </item>
     <item
         jar="/home/pasha/IdeaProjects/Weather/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/classes.jar"
