@@ -2,7 +2,14 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
+
+        <item name="colorPrimary"> @color/primary_material_light</item>
+        <item name="colorPrimaryDark">@color/primary_dark_material_light</item>
+        <item name="colorAccent">@color/accent_material_light</item>
+
+    </style>
+    <style name="ButtonAppTheme" parent="android:Widget.Material.Button">
+        <item name="android:background">@drawable/abc_btn_colored_material</item>
     </style>
 
 </resources>
