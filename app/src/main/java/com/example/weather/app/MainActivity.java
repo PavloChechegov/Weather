@@ -1,20 +1,23 @@
 package com.example.weather.app;
 
+
 import android.content.Context;
-import android.graphics.Color;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
-import com.github.pwittchen.weathericonview.WeatherIconView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,87 +27,148 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
-    private EditText mEnterCity;
-    public Button mButtonSearch;
-    public DownloadsWeather mWeather;
-    private TextView mResultTextView;
+public class MainActivity extends AppCompatActivity implements SearchFragment.OnClickSearchListener {
+
+    public DownloadAsyncTask mDownloadAsyncTask;
     public HttpURLConnection httpURLConnection;
-    public WeatherIconView mWeatherIconView;
+    private FragmentManager mFragmentManager;
+    private WeatherFragment mWeatherFragment;
+    private FragmentTransaction mTransaction;
+    private SearchFragment mSearchFragment;
+    private double mLat, mLng;
 
-    //method that give me int to resource object;
-    public int setWeatherIcon(int idIcon) {
-        int id = idIcon / 100;
-        int icon;
-        if (idIcon == 800) {
-            icon = R.string.wi_wu_sunny;
-        } else {
-            switch (id) {
-                case 2:
-                    icon = R.string.wi_thunderstorm;
-                    break;
-                case 3:
-                    icon = R.string.wi_fog;
-                    break;
-                case 7:
-                    icon = R.string.wi_wu_hazy;
-                    break;
-                case 8:
-                    icon = R.string.wi_cloudy;
-                    break;
-                case 6:
-                    icon = R.string.wi_snow;
-                    break;
-                case 5:
-                    icon = R.string.wi_rain_wind;
-                    break;
-                default:
-                    icon = R.string.wi_fire;
-            }
-        }
+    private SharedPreferences mSharedPreferences;
 
-        return icon;
-    }
+    private static final String PREFERENCES = "city_location";
+    private static final String PREFERENCES_LATITUDE = "latitude";
+    private static final String PREFERENCES_LONGITUDE = "longitude";
+    private static final String PREFERENCES_CITYNAME = "city";
+
+    private String mCityName;
+    private Weather weather;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.container);
+        setContentView(R.layout.activity_main);
 
-        mEnterCity = (EditText) findViewById(R.id.etCity);
-        mResultTextView = (TextView) findViewById(R.id.tvResult);
+        //mSharedPreferences = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
+
+        mSearchFragment = new SearchFragment();
+        mFragmentManager = getSupportFragmentManager();
+
+        mTransaction = mFragmentManager.beginTransaction();
+        mTransaction.add(R.id.container, mSearchFragment);
 
 
-        mWeatherIconView = (WeatherIconView) findViewById(R.id.ivIconWeather);
-        mWeatherIconView.setIconResource(getString(R.string.wi_day_sunny_overcast));
-        mButtonSearch = (Button) findViewById(R.id.search_button);
-        mButtonSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i("Click on button", mEnterCity.getText().toString());
+//        if (mSharedPreferences != null) {
+//            Log.i("SharedPreferences", "Received");
+//        }
 
-                //encode our text that we typing in editText field, if we have some space or coma or something like that
-                // this text we encoding for standard UTF-8
-                InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                manager.hideSoftInputFromWindow(mEnterCity.getWindowToken(), 0);
+        mTransaction.commit();
 
-                try {
-                    //in background thread take weather data from this url
-                    String encodeCityName = URLEncoder.encode(mEnterCity.getText().toString(), "UTF-8");
-                    mWeather = new DownloadsWeather();
-                    mWeather.execute("http://api.openweathermap.org/data/2.5/weather?q=" +
-                            encodeCityName + "&appid=eee8ded8ee45a1c5e98a4da3e86a896f");
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "Could not find weather", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
     }
 
-    public class DownloadsWeather extends AsyncTask<String, Void, String> {
-        public WeatherOfDay weatherOfDay;
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString(PREFERENCES_CITYNAME, mCityName);
+        super.onSaveInstanceState(outState);
+
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mCityName = savedInstanceState.getString(PREFERENCES_CITYNAME);
+
+    }
+
+    @Override
+    public Object onRetainCustomNonConfigurationInstance() {
+        return weather;
+    }
+
+
+
+    @Override
+    public void getLocation(String name) {
+        mCityName = name;
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        try {
+
+            List<Address> addresses = geocoder.getFromLocationName(name, 1);
+            Address obj = addresses.get(0);
+
+            mLat = obj.getLatitude();
+            mLng = obj.getLongitude();
+            Log.d("LOCATION_OF_CITY", "\n Address and data: "
+                    + "\n Name: " + name
+                    + "\n Latitude: " + mLat
+                    + "\n Longitude: " + mLng);
+
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+//        SharedPreferences.Editor editor = mSharedPreferences.edit();
+//        editor.putString(PREFERENCES_CITYNAME, name);
+//        editor.putString(PREFERENCES_LONGITUDE, Double.toString(mLng));
+//        editor.putString(PREFERENCES_LATITUDE, Double.toString(mLat));
+//        editor.apply();
+
+        //see city location on google map
+        seeLocation();
+
+    }
+
+    public void seeLocation() {
+        Intent intent = new Intent(this, MapsActivity.class);
+        intent.putExtra("location_latitude", mLat);
+        intent.putExtra("location_Longitude", mLng);
+        intent.putExtra("CityName", mCityName);
+        startActivity(intent);
+    }
+
+    @Override
+    public void cityName(String city) {
+
+        mCityName = city;
+        mWeatherFragment = new WeatherFragment();
+        mTransaction = mFragmentManager.beginTransaction();
+        mTransaction.addToBackStack(null);
+        mTransaction.replace(R.id.container, mWeatherFragment, WeatherFragment.DESCRIPTION_TAG);
+        mTransaction.commit();
+
+        //encode our text that we typing in editText field, if we have some space1 or coma or something like that
+        // this text we encoding for standard UTF-8
+
+        //InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        //must be in SearchFragment in future
+        //manager.hideSoftInputFromWindow(mSearchFragment.mEnterCity.getWindowToken(), 0);
+
+
+        try {
+            //in background thread take weather data from this url
+            String encodeCityName = URLEncoder.encode(mCityName, "UTF-8");
+            Log.i("CityNameInActivity", mCityName);
+            mDownloadAsyncTask = new DownloadAsyncTask();
+            mDownloadAsyncTask.execute("http://api.openweathermap.org/data/2.5/weather?q=" +
+                    encodeCityName + "&appid=eee8ded8ee45a1c5e98a4da3e86a896f");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "Could not find weather", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public class DownloadAsyncTask extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... urls) {
@@ -122,15 +186,8 @@ public class MainActivity extends AppCompatActivity {
                 InputStream inputStream = httpURLConnection.getInputStream();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
-//                int data = reader.read();
                 while ((line = reader.readLine()) != null) {
                     buffer.append(line);
-                    /* why we doing something like that, i can't understand
-                        because its not normal, we must create String or in best
-                        case StringBuffer and add to this our reader. I think so!
-                    char current = (char) data;
-                    result += current;
-                    data = reader.read();*/
                 }
 
                 resultJSON = buffer.toString();
@@ -139,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 Toast.makeText(getApplicationContext(), "Could not find weather", Toast.LENGTH_LONG).show();
                 e.printStackTrace();
             }
@@ -155,46 +212,63 @@ public class MainActivity extends AppCompatActivity {
 
             //Log.i("Website content", result);
             try {
-
+                Date date = new Date();
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+                simpleDateFormat.format(date);
+                Log.i("Date", simpleDateFormat.format(date));
                 JSONObject jsonObject = new JSONObject(result);
-                String weatherInfo = jsonObject.getString("weather");
-                Log.i("Weather content", weatherInfo);
 
-                JSONArray jsonArray = new JSONArray(weatherInfo);
-                for (int i = 0; i < jsonArray.length(); i++) {
 
-                    JSONObject object = jsonArray.getJSONObject(i);
-                    weatherOfDay = new WeatherOfDay(object);
+                weather = (Weather) getLastCustomNonConfigurationInstance();
 
-//                    String main = object.getString("main");;
-//                    String description = object.getString("description");
-//                    int icon = object.getInt("icon");
-                    if (weatherOfDay != null) {
-                        mResultTextView.setText(weatherOfDay.toString());
-
-                        //this line what doing, explain: 1. I get weather id from JSONObject(it can be 800, 801, 500, 400...)
-                        //and put to method setWeatherIcon(id) take from this method int reference to resources file
-                        // and put to method setIconResource. Its very difficult process but ut works
-                        mWeatherIconView.setIconResource(getString(setWeatherIcon(weatherOfDay.getId())));
-//
-                        Log.i("Weather", weatherOfDay.toString() + weatherOfDay.getIconView());
-
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Could not find weather", Toast.LENGTH_SHORT).show();
-                    }
-
-                    Log.i("Main: ", object.getString("main"));
-                    Log.i("Description", object.getString("description"));
-
+                if (weather == null){
+                    weather = new Weather(jsonObject);
+                    Log.i("Weather", weather.toString());
                 }
 
+                mWeatherFragment.initWeather(weather, simpleDateFormat.format(date));
+
+
+                //String weatherInfo = jsonObject.getString("weather");
+                //String mainInfo = jsonObject.getString("main");
+                //JSONObject jsonMain = jsonObject.getJSONObject("main");
+
+                //Log.i("MainInfo", mainInfo);
+                //Log.i("Weather content", weatherInfo);
+
+//                JSONArray jsonArray = new JSONArray(weatherInfo);
+//                Log.i("JSON Array length", jsonArray.toString());
+//                for (int i = 0; i < jsonArray.length(); i++) {
+//
+//                    JSONObject object = jsonArray.getJSONObject(i);
+//                    weatherOfDay = new Weather(object);
+//
+//
+//                    if (weatherOfDay != null) {
+//
+//                        Log.i("mWeatherFragment", mWeatherFragment.toString());
+//                    /*
+//                        this line what doing, explain: 1. I get weather id from JSONObject(it can be 800, 801, 500, 400...)
+//                        and put to method setWeatherIcon(id) take from this method int reference to resources file
+//                         and put to method setIconResource. Its very difficult process but it works
+//                        mWeatherIconView.setIconResource(getString(setWeatherIcon(weatherOfDay.getId())));
+//                    */
+//                        mWeatherFragment.initWeather(weatherOfDay);
+//                        Log.i("Weather", weatherOfDay.toString());
+//
+//                    } else {
+//                        Toast.makeText(getApplicationContext(), "Could not find weather", Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                    Log.i("Main: ", object.getString("main"));
+//                    Log.i("Description", object.getString("description"));
+//
+//                }
 
             } catch (JSONException e) {
                 e.printStackTrace();
                 Toast.makeText(getApplicationContext(), "Could not find weather", Toast.LENGTH_SHORT).show();
             }
-
-
         }
     }
 
