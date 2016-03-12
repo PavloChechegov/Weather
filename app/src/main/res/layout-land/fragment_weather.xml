@@ -16,7 +16,6 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/tvTitle"
-
             android:textSize="24sp"
             android:textColor="@color/accent_material_light"
             android:layout_alignTop="@+id/tvDescWeather" android:layout_alignParentRight="true"
@@ -29,9 +28,8 @@
             android:id="@+id/tvDescription"
             android:textSize="24sp"
             android:textColor="@color/accent_material_light"
-            android:gravity="center_horizontal"
-            android:layout_marginBottom="100dp" android:layout_above="@+id/tvLastUpdate"
-            android:layout_centerHorizontal="true" android:autoText="true"/>
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"/>
 
     <com.github.pwittchen.weathericonview.WeatherIconView
 
@@ -41,16 +39,16 @@
             custom:weatherIconColor="@color/accent_material_light"
             custom:weatherIconSize="100"
             android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_alignLeft="@+id/tvDescription"
-            android:layout_alignStart="@+id/tvDescription"/>
+            android:layout_centerVertical="true"/>
 
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
               android:id="@+id/tvTemperature"
-
               android:textColor="@color/accent_material_light"
-              android:textSize="72sp" android:layout_below="@+id/tvDescWeather" android:layout_centerHorizontal="true"
-              android:layout_marginTop="10dp" android:numeric="integer"/>
+              android:textSize="72sp"
+              android:numeric="integer"
+              android:layout_centerVertical="true" android:layout_alignRight="@+id/tvLastUpdate"
+              android:layout_alignEnd="@+id/tvLastUpdate"/>
 
     <TextView android:layout_width="wrap_content"
               android:layout_height="wrap_content"
@@ -61,10 +59,12 @@
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Description"
+            android:text="@string/weather_description"
             android:id="@+id/tvDescWeather"
             android:textSize="24sp"
-            android:layout_marginTop="32dp" android:layout_below="@+id/tvCity" android:layout_alignParentLeft="true"
+            android:layout_marginTop="32dp"
+            android:layout_below="@+id/tvCity"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"/>
 
 
