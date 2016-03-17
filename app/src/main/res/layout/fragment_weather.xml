@@ -4,7 +4,7 @@
                 android:layout_height="match_parent"
                 android:layout_margin="@dimen/activity_horizontal_margin"
                 xmlns:custom="http://schemas.android.com/apk/res-auto"
-                tools:context="com.example.weather.app.WeatherFragment">
+                tools:context="com.example.weather.app.fragments.WeatherFragment">
 
     <TextView android:layout_width="wrap_content"
               android:layout_height="wrap_content"
@@ -15,12 +15,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:id="@+id/tvTitle"
-
             android:textSize="24sp"
             android:textColor="@color/accent_material_light"
-            android:layout_alignTop="@+id/tvDescWeather" android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"/>
+            android:id="@+id/tvTitle" android:layout_alignTop="@+id/tvDescWeather"
+            android:layout_alignParentRight="true" android:layout_alignParentEnd="true"/>
+
 
     <TextView
             android:layout_width="wrap_content"
@@ -30,8 +29,10 @@
             android:textSize="24sp"
             android:textColor="@color/accent_material_light"
             android:gravity="center_horizontal"
+            android:autoText="true"
+            android:text="light show"
             android:layout_marginBottom="100dp" android:layout_above="@+id/tvLastUpdate"
-            android:layout_centerHorizontal="true" android:autoText="true"/>
+            android:layout_centerHorizontal="true"/>
 
     <com.github.pwittchen.weathericonview.WeatherIconView
 
@@ -41,16 +42,17 @@
             custom:weatherIconColor="@color/accent_material_light"
             custom:weatherIconSize="100"
             android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_alignLeft="@+id/tvDescription"
-            android:layout_alignStart="@+id/tvDescription"/>
+            android:layout_centerVertical="true"/>
 
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
               android:id="@+id/tvTemperature"
 
               android:textColor="@color/accent_material_light"
-              android:textSize="72sp" android:layout_below="@+id/tvDescWeather" android:layout_centerHorizontal="true"
-              android:layout_marginTop="10dp" android:numeric="integer"/>
+              android:textSize="72sp" android:layout_below="@+id/tvDescWeather"
+              android:layout_marginTop="10dp" android:numeric="integer"
+              android:gravity="center_vertical|center_horizontal" android:layout_alignRight="@+id/ivIconWeather"
+              android:layout_alignEnd="@+id/ivIconWeather" android:layout_alignLeft="@+id/ivIconWeather"
+              android:layout_alignStart="@+id/ivIconWeather"/>
 
     <TextView android:layout_width="wrap_content"
               android:layout_height="wrap_content"

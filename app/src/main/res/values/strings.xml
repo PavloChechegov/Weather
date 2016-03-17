@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Weather</string>
+    <string name="app_name">Weather &amp; Location</string>
 
     <string name="text_view_what_city">Please, enter the city</string>
     <string name="button_weather">Weather</string>

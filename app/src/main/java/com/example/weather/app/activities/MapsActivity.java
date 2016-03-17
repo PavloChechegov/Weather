@@ -1,9 +1,10 @@
-package com.example.weather.app;
+package com.example.weather.app.activities;
 
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
+import com.example.weather.app.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -49,7 +50,7 @@ public class MapsActivity extends FragmentActivity {
 
         intent.getSerializableExtra("location_Longitude");
 
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 16));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 9));
         mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title(cityName))
                 .setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
     }

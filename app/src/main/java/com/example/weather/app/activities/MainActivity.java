@@ -1,7 +1,6 @@
-package com.example.weather.app;
+package com.example.weather.app.activities;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Address;
@@ -15,10 +14,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
+import android.view.WindowManager;
 import android.widget.Toast;
-import org.json.JSONArray;
+import com.example.weather.app.R;
+import com.example.weather.app.fragments.SearchFragment;
+import com.example.weather.app.Weather;
+import com.example.weather.app.fragments.WeatherFragment;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -57,34 +58,14 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //mSharedPreferences = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
-
         mSearchFragment = new SearchFragment();
         mFragmentManager = getSupportFragmentManager();
 
         mTransaction = mFragmentManager.beginTransaction();
         mTransaction.add(R.id.container, mSearchFragment);
-
-
-//        if (mSharedPreferences != null) {
-//            Log.i("SharedPreferences", "Received");
-//        }
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 
         mTransaction.commit();
-
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState.putString(PREFERENCES_CITYNAME, mCityName);
-        super.onSaveInstanceState(outState);
-
-    }
-
-    @Override
-    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        mCityName = savedInstanceState.getString(PREFERENCES_CITYNAME);
 
     }
 
@@ -94,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
     }
 
 
-
+    //get 2 parameters = latitude and longitude and send to MapsActivity
     @Override
     public void getLocation(String name) {
         mCityName = name;
@@ -149,11 +130,6 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
         //encode our text that we typing in editText field, if we have some space1 or coma or something like that
         // this text we encoding for standard UTF-8
 
-        //InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-
-        //must be in SearchFragment in future
-        //manager.hideSoftInputFromWindow(mSearchFragment.mEnterCity.getWindowToken(), 0);
-
 
         try {
             //in background thread take weather data from this url
@@ -174,6 +150,7 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
         protected String doInBackground(String... urls) {
             String resultJSON = null;
 
+            //get JSON object from openweathermap.org site
 
             try {
                 URL url = new URL(urls[0]);
@@ -228,42 +205,12 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
 
                 mWeatherFragment.initWeather(weather, simpleDateFormat.format(date));
 
-
-                //String weatherInfo = jsonObject.getString("weather");
-                //String mainInfo = jsonObject.getString("main");
-                //JSONObject jsonMain = jsonObject.getJSONObject("main");
-
-                //Log.i("MainInfo", mainInfo);
-                //Log.i("Weather content", weatherInfo);
-
-//                JSONArray jsonArray = new JSONArray(weatherInfo);
-//                Log.i("JSON Array length", jsonArray.toString());
-//                for (int i = 0; i < jsonArray.length(); i++) {
-//
-//                    JSONObject object = jsonArray.getJSONObject(i);
-//                    weatherOfDay = new Weather(object);
-//
-//
-//                    if (weatherOfDay != null) {
-//
-//                        Log.i("mWeatherFragment", mWeatherFragment.toString());
 //                    /*
 //                        this line what doing, explain: 1. I get weather id from JSONObject(it can be 800, 801, 500, 400...)
 //                        and put to method setWeatherIcon(id) take from this method int reference to resources file
 //                         and put to method setIconResource. Its very difficult process but it works
 //                        mWeatherIconView.setIconResource(getString(setWeatherIcon(weatherOfDay.getId())));
 //                    */
-//                        mWeatherFragment.initWeather(weatherOfDay);
-//                        Log.i("Weather", weatherOfDay.toString());
-//
-//                    } else {
-//                        Toast.makeText(getApplicationContext(), "Could not find weather", Toast.LENGTH_SHORT).show();
-//                    }
-//
-//                    Log.i("Main: ", object.getString("main"));
-//                    Log.i("Description", object.getString("description"));
-//
-//                }
 
             } catch (JSONException e) {
                 e.printStackTrace();

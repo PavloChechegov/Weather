@@ -1,4 +1,4 @@
-package com.example.weather.app;
+package com.example.weather.app.fragments;
 
 
 import android.content.Context;
@@ -9,9 +9,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import com.example.weather.app.R;
 
 /**
  * Created by pasha on 2/7/16.
@@ -64,7 +66,7 @@ public class SearchFragment extends Fragment {
         return view;
     }
 
-    interface OnClickSearchListener {
+    public interface OnClickSearchListener {
         void cityName(String city);
         void getLocation(String city);
     }

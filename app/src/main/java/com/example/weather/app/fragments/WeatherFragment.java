@@ -1,13 +1,17 @@
-package com.example.weather.app;
+package com.example.weather.app.fragments;
 
 
+import android.content.Context;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
+import com.example.weather.app.R;
+import com.example.weather.app.Weather;
 import com.github.pwittchen.weathericonview.WeatherIconView;
 
 
@@ -22,8 +26,7 @@ public class WeatherFragment extends Fragment {
     public TextView mCity;
     public TextView mTime;
     public String mLastUpdate = "last update ";
-//    private Button mButton;
-//    private Weather mWeatherOfDay;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,6 +38,10 @@ public class WeatherFragment extends Fragment {
         mTitleTextView = (TextView) view.findViewById(R.id.tvTitle);
         mTemperature = (TextView) view.findViewById(R.id.tvTemperature);
         mCity = (TextView) view.findViewById(R.id.tvCity);
+
+        //hiding keyboard on WeatherFragment
+        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(mCity.getWindowToken(), 0);
         mTime = (TextView) view.findViewById(R.id.tvLastUpdate)
 ;
         return view;

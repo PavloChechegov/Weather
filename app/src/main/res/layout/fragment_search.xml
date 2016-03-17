@@ -2,7 +2,8 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:context=".MainActivity" >
+                tools:context=".MainActivity"
+                >
 
     <TextView
             android:layout_width="wrap_content"
@@ -24,14 +25,13 @@
             android:layout_height="wrap_content"
             android:id="@+id/etCity"
             android:textSize="24sp"
-
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/tvWeather"
             android:layout_marginLeft="50dp"
             android:editable="true"
             android:singleLine="true"
             android:maxHeight="@dimen/abc_action_button_min_height_material"
-            android:inputType="textFilter|textAutoComplete|textAutoCorrect"/>
+            android:inputType="textCapSentences"/>
 
     <Button style="@style/ButtonAppTheme"
             android:layout_width="wrap_content"
